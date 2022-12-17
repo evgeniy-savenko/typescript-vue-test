@@ -1,5 +1,5 @@
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {computed, defineComponent} from 'vue';
 import type {PropType} from 'vue';
 import type Job from '@/types/Job';
 import type OrderTerm from '@/types/OrderTerm';
@@ -15,17 +15,25 @@ export default defineComponent({
       type: String as PropType<OrderTerm>,
     },
   },
-  setup() {},
+  setup(props) {
+    const orderedJobs = computed(() => {
+      return [...props.jobs].sort((a: Job, b: Job) => {
+        return a[props.order] > b[props.order] ? 1 : -1;
+      });
+    });
+    return {orderedJobs};
+  },
 });
 </script>
 
 <template>
   <div class="job-list">
     <p>Ordered by {{ order }}</p>
-    <ul>
-      <li v-for="job in jobs" :key="job.id">
+    <transition-group name="list" tag="ul">
+      <li v-for="job in orderedJobs" :key="job.id">
         <h2>{{ job.title }} in {{ job.location }}</h2>
         <div class="salary">
+          <img src="../assets/rupee.svg" alt="" />
           <p>{{ job.salary }} rupees</p>
         </div>
         <div class="descr">
@@ -37,7 +45,7 @@ export default defineComponent({
           </p>
         </div>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -70,5 +78,8 @@ export default defineComponent({
   color: #17bf66;
   font-weight: bold;
   margin: 10px 4px;
+}
+.list-move {
+  transition: all 1s;
 }
 </style>

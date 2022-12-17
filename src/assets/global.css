@@ -1,7 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap');
-
-* {
+@font-face {
+  font-family: HyliaSerif;
+  src: url('HyliaSerifBeta-Regular.ttf') format('opentype');
+}
+body {
   margin: 0 auto;
   font-family: 'Montserrat', sans-serif;
   background-color: rgb(253, 234, 238);
+}
+
+h1 {
+  font-family: 'HyliaSerif';
+  letter-spacing: 4px;
 }
